@@ -1,9 +1,9 @@
 package main
 
 import (
-	utils "github.com/praharshaAdhikari/go-rtl/internal/pkg"
-	"github.com/praharshaAdhikari/go-rtl/internal/rtl"
-	"github.com/praharshaAdhikari/go-rtl/internal/sim"
+	utils "github.com/praharshaAdhikari/go-rtl/pkg"
+	"github.com/praharshaAdhikari/go-rtl/rtl"
+	"github.com/praharshaAdhikari/go-rtl/sim"
 )
 
 func main() {

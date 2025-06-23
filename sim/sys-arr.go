@@ -95,11 +95,6 @@ func (sa *SystolicArray) LoadAccumulators(accumulators [][]rtl.FixedPoint) {
 		}
 	}
 	sa.Clock()
-	for i := range sa.rows {
-		for j := range sa.cols {
-			println("Accumulator at (", i, ",", j, ") =", sa.cells[i][j].accumulator.Get())
-		}
-	}
 }
 
 func (sa *SystolicArray) Simulate(inputs SystolicArrayInput, verbose bool) {

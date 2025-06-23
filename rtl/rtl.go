@@ -2,12 +2,12 @@ package rtl
 
 type FixedPoint int64
 
-func (fp *FixedPoint) ToFloat(scale int) float64 {
-	return float64(*fp) / float64(scale)
+func (fp *FixedPoint) ToFloat(scale int) float32 {
+	return float32(*fp) / float32(scale)
 }
 
-func (fp *FixedPoint) FromFloat(f float64, scale int) {
-	*fp = FixedPoint(f * float64(scale))
+func (fp *FixedPoint) FromFloat(f float32, scale int) {
+	*fp = FixedPoint(f * float32(scale))
 }
 
 func (fp *FixedPoint) FromInt(i int, scale int) {

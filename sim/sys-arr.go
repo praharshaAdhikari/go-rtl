@@ -61,12 +61,19 @@ func (sa *SystolicArray) Reset() {
 }
 
 func (sa *SystolicArray) LoadAccumulators(accumulators [][]rtl.FixedPoint) {
-	if len(accumulators) != int(sa.rows) || len(accumulators[0]) != int(sa.cols) {
+	if len(accumulators) != sa.rows || len(accumulators[0]) != sa.cols {
 		panic("Invalid accumulator dimensions")
 	}
 	for i := range sa.rows {
 		for j := range sa.cols {
 			sa.cells[i][j].accumulator.Set(accumulators[i][j])
+			sa.cells[i][j].accumulator.Clock()
+		}
+	}
+	sa.Clock()
+	for i := range sa.rows {
+		for j := range sa.cols {
+			println("Accumulator at (", i, ",", j, ") =", sa.cells[i][j].accumulator.Get())
 		}
 	}
 }

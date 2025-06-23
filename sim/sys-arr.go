@@ -60,6 +60,17 @@ func (sa *SystolicArray) Reset() {
 	sa.cycles = 0
 }
 
+func (sa *SystolicArray) LoadAccumulators(accumulators [][]rtl.FixedPoint) {
+	if len(accumulators) != int(sa.rows) || len(accumulators[0]) != int(sa.cols) {
+		panic("Invalid accumulator dimensions")
+	}
+	for i := range sa.rows {
+		for j := range sa.cols {
+			sa.cells[i][j].accumulator.Set(accumulators[i][j])
+		}
+	}
+}
+
 func (sa *SystolicArray) Simulate(inputs SystolicArrayInput) {
 	fmt.Println("Starting Systolic Array Simulation")
 	if len(inputs) == 0 {

@@ -5,7 +5,7 @@ import (
 	"github.com/praharshaAdhikari/go-rtl/sim"
 )
 
-func MatricesToSystolicArrayInput(matrices [][][]int) sim.SystolicArrayInput {
+func MatricesToSystolicArrayInput(matrices [][][]rtl.FixedPoint) sim.SystolicArrayInput {
 	A := matrices[0] // MxK
 	B := matrices[1] // KxN
 

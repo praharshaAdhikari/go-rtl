@@ -17,7 +17,7 @@ func main() {
 	mac.Simulate(macInputs)
 
 	sysArr := sim.NewSystolicArray(2, 3)
-	matrices := [][][]int{
+	matrices := [][][]rtl.FixedPoint{
 		{
 			{1, 2},
 			{3, 4},

@@ -1,16 +1,20 @@
 package sim
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/praharshaAdhikari/go-rtl/rtl"
+)
 
 type SystolicArrayInput [][]MACInput
 
 type SystolicArray struct {
-	rows, cols int
+	rows, cols rtl.FixedPoint
 	cells      [][]*MAC
-	cycles     int
+	cycles     rtl.FixedPoint
 }
 
-func NewSystolicArray(rows, cols int) *SystolicArray {
+func NewSystolicArray(rows, cols rtl.FixedPoint) *SystolicArray {
 	cells := make([][]*MAC, rows)
 	for i := range cells {
 		cells[i] = make([]*MAC, cols)
@@ -114,4 +118,15 @@ func (sa *SystolicArray) Simulate(inputs SystolicArrayInput) {
 		}
 	}
 	fmt.Println("Systolic Array Simulation Complete")
+}
+
+func (sa *SystolicArray) GetFinalAccumulators() [][]rtl.FixedPoint {
+	finalAccumulators := make([][]rtl.FixedPoint, sa.rows)
+	for i := range finalAccumulators {
+		finalAccumulators[i] = make([]rtl.FixedPoint, sa.cols)
+		for j := range finalAccumulators[i] {
+			finalAccumulators[i][j] = sa.cells[i][j].accumulator.Get()
+		}
+	}
+	return finalAccumulators
 }

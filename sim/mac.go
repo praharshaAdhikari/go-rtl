@@ -34,20 +34,32 @@ func (m *MAC) Reset() {
 	m.accumulator.Set(0)
 }
 
-func (m *MAC) Simulate(inputs MACInput) {
-	fmt.Println("Starting MAC Simulation")
+func (m *MAC) Simulate(inputs MACInput, verbose bool) {
+	if verbose {
+		fmt.Println("Starting MAC Simulation")
+	}
+
 	if len(inputs) == 0 {
 		fmt.Println("No inputs provided for MAC simulation.")
 		return
 	}
-	fmt.Println("Initial State: A =", m.a.Get(), ", B =", m.b.Get(), ", Accumulator =", m.accumulator.Get())
+
+	if verbose {
+		fmt.Println("Initial State: A =", m.a.Get(), ", B =", m.b.Get(), ", Accumulator =", m.accumulator.Get())
+	}
+
 	for i, input := range inputs {
 		m.a.Set(input[0].Get())
 		m.b.Set(input[1].Get())
 		m.Clock()
-		fmt.Print("Cycle ", i+1, ": A = ", m.a.Get(), ", B = ", m.b.Get(), ", Accumulator = ", m.accumulator.Get(), "\n")
+		if verbose {
+			fmt.Print("Cycle ", i+1, ": A = ", m.a.Get(), ", B = ", m.b.Get(), ", Accumulator = ", m.accumulator.Get(), "\n")
+		}
 	}
-	fmt.Println("Final State: A =", m.a.Get(), ", B =", m.b.Get(), ", Accumulator =", m.accumulator.Get())
-	fmt.Println("Total Cycles:", len(inputs))
-	fmt.Println("MAC Simulation Complete")
+
+	if verbose {
+		fmt.Println("Final State: A =", m.a.Get(), ", B =", m.b.Get(), ", Accumulator =", m.accumulator.Get())
+		fmt.Println("Total Cycles:", len(inputs))
+		fmt.Println("MAC Simulation Complete")
+	}
 }

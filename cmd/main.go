@@ -14,7 +14,7 @@ func main() {
 		{rtl.NewWire(5), rtl.NewWire(6)},
 		{rtl.NewWire(7), rtl.NewWire(8)},
 	}
-	mac.Simulate(macInputs)
+	mac.Simulate(macInputs, false)
 
 	sysArr := sim.NewSystolicArray(2, 1)
 	// accumulators := [][]rtl.FixedPoint{
@@ -34,5 +34,5 @@ func main() {
 	}
 	// sysArr.LoadAccumulators(accumulators)
 	sysArrInputs := utils.MatricesToSystolicArrayInput(matrices)
-	sysArr.Simulate(sysArrInputs)
+	sysArr.Simulate(sysArrInputs, false)
 }

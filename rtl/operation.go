@@ -1,13 +1,30 @@
 package rtl
 
-func Add(a, b Signal) Wire {
-	result := NewWire()
-	result.Set(a.Get() + b.Get())
-	return *result
+import "math"
+
+func FixedPointMul(a, b FixedPoint) FixedPoint {
+	aFloat := a.ToFloat()
+	bFloat := b.ToFloat()
+	var result FixedPoint
+	result.FromFloat(aFloat * bFloat)
+	return result
 }
 
-func Multiply(a, b Signal) Wire {
-	result := NewWire()
-	result.Set(a.Get() * b.Get())
-	return *result
+func FixedPointDiv(a, b FixedPoint) FixedPoint {
+	if b.ToFloat() == 0 {
+		return a
+	}
+	aFloat := a.ToFloat()
+	bFloat := b.ToFloat()
+	var result FixedPoint
+	result.FromFloat(aFloat / bFloat)
+	return result
+}
+
+func FixedPointExp(a FixedPoint) FixedPoint {
+	aFloat := a.ToFloat()
+	expFloat := float32(math.Exp(float64(aFloat)))
+	var result FixedPoint
+	result.FromFloat(expFloat)
+	return result
 }

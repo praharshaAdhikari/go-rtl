@@ -2,20 +2,22 @@ package rtl
 
 type FixedPoint int64
 
-func (fp *FixedPoint) ToFloat(scale int) float32 {
-	return float32(*fp) / float32(scale)
+const SCALE = 1 << 10
+
+func (fp *FixedPoint) ToFloat() float32 {
+	return float32(*fp) / float32(SCALE)
 }
 
-func (fp *FixedPoint) FromFloat(f float32, scale int) {
-	*fp = FixedPoint(f * float32(scale))
+func (fp *FixedPoint) FromFloat(f float32) {
+	*fp = FixedPoint(f * float32(SCALE))
 }
 
-func (fp *FixedPoint) FromInt(i int, scale int) {
-	*fp = FixedPoint(i * int(scale))
+func (fp *FixedPoint) FromInt(i int) {
+	*fp = FixedPoint(i * int(SCALE))
 }
 
-func (fp *FixedPoint) ToInt(scale int) int {
-	return int(*fp) / scale
+func (fp *FixedPoint) ToInt() int {
+	return int(*fp) / SCALE
 }
 
 type Signal interface {

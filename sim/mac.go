@@ -22,9 +22,9 @@ func NewMAC() *MAC {
 }
 
 func (m *MAC) Clock() {
-	product := rtl.Multiply(m.a, m.b)
-	result := rtl.Add(m.accumulator, &product)
-	m.accumulator.Set(result.Get())
+	product := rtl.FixedPointMul(m.a.Get(), m.b.Get())
+	result := m.accumulator.Get() + product
+	m.accumulator.Set(result)
 	m.accumulator.Clock()
 }
 

@@ -11,7 +11,7 @@ type SystolicArrayInput [][]MACInput
 type SystolicArray struct {
 	rows, cols int
 	cells      [][]*MAC
-	cycles     rtl.FixedPoint
+	cycles     int
 }
 
 func NewSystolicArray(rows, cols int) *SystolicArray {

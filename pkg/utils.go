@@ -17,7 +17,7 @@ func MatricesToSystolicArrayInput(matrices [][][]rtl.FixedPoint) sim.SystolicArr
 		panic("Invalid matrices: A's columns must match B's rows")
 	}
 
-	cycles := K + N - 1
+	cycles := M + K + N - 2 // Correct number of cycles needed
 	inputs := make(sim.SystolicArrayInput, cycles)
 
 	for t := range cycles {
@@ -25,15 +25,18 @@ func MatricesToSystolicArrayInput(matrices [][][]rtl.FixedPoint) sim.SystolicArr
 		for i := range M {
 			col := make(sim.MACInput, N)
 			for j := range N {
-				var aSig, bSig rtl.Signal = &rtl.Wire{}, &rtl.Wire{}
-				aSig.Set(0)
-				bSig.Set(0)
-				if j == 0 && t-i >= 0 && t-i < K {
-					aSig.Set(A[i][t-i])
+				var aSig, bSig rtl.Signal = rtl.NewWire(0), rtl.NewWire(0)
+
+				// Get correct A value for this cycle
+				if j == 0 && i <= t && t-i < K {
+					aSig = rtl.NewWire(A[i][t-i])
 				}
-				if i == 0 && t-j >= 0 && t-j < K {
-					bSig.Set(B[t-j][j])
+
+				// Get correct B value for this cycle
+				if i == 0 && j <= t && t-j < K {
+					bSig = rtl.NewWire(B[t-j][j])
 				}
+
 				col[j] = [2]rtl.Signal{aSig, bSig}
 			}
 			row[i] = col

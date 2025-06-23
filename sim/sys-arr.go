@@ -7,6 +7,7 @@ type SystolicArrayInput [][]MACInput
 type SystolicArray struct {
 	rows, cols int
 	cells      [][]*MAC
+	cycles     int
 }
 
 func NewSystolicArray(rows, cols int) *SystolicArray {
@@ -41,9 +42,34 @@ func (sa *SystolicArray) Clock() {
 			}
 		}
 	}
+	sa.cycles++
+}
+
+func (sa *SystolicArray) Reset() {
+	for i := range sa.rows {
+		for j := range sa.cols {
+			sa.cells[i][j].a.Set(0)
+			sa.cells[i][j].b.Set(0)
+			sa.cells[i][j].accumulator.Set(0)
+		}
+	}
+	sa.cycles = 0
 }
 
 func (sa *SystolicArray) Simulate(inputs SystolicArrayInput) {
+	fmt.Println("Starting Systolic Array Simulation")
+	if len(inputs) == 0 {
+		fmt.Println("No inputs provided for Systolic Array simulation.")
+		return
+	}
+	fmt.Println("Initial State:")
+	for i := range sa.rows {
+		for j := range sa.cols {
+			acc := sa.cells[i][j].accumulator.Get()
+			fmt.Print("Cell[", i, "][", j, "] A = ", sa.cells[i][j].a.Get(), ", B = ", sa.cells[i][j].b.Get(), ", Accumulator = ", acc, "\n")
+		}
+	}
+	fmt.Println("Starting Feed Cycles...")
 	for inputCycle := range inputs {
 		for row := range sa.rows {
 			for col := range sa.cols {
@@ -66,7 +92,7 @@ func (sa *SystolicArray) Simulate(inputs SystolicArrayInput) {
 		}
 		fmt.Println("End of Feed Cycle", inputCycle+1)
 	}
-
+	fmt.Println("Starting Drain Cycles...")
 	drainCycles := sa.rows - 1
 	for drainCycle := range drainCycles {
 		sa.Clock()
@@ -79,7 +105,7 @@ func (sa *SystolicArray) Simulate(inputs SystolicArrayInput) {
 		}
 		fmt.Println("End of Drain Cycle", drainCycle+1)
 	}
-
+	fmt.Println("Total Cycles:", sa.cycles)
 	fmt.Println("Final MAC States:")
 	for i := range sa.rows {
 		for j := range sa.cols {
@@ -87,4 +113,5 @@ func (sa *SystolicArray) Simulate(inputs SystolicArrayInput) {
 			fmt.Print("Cell[", i, "][", j, "] A = ", sa.cells[i][j].a.Get(), ", B = ", sa.cells[i][j].b.Get(), ", Accumulator = ", acc, "\n")
 		}
 	}
+	fmt.Println("Systolic Array Simulation Complete")
 }

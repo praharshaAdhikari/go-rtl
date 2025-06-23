@@ -9,12 +9,12 @@ import (
 type SystolicArrayInput [][]MACInput
 
 type SystolicArray struct {
-	rows, cols rtl.FixedPoint
+	rows, cols int
 	cells      [][]*MAC
 	cycles     rtl.FixedPoint
 }
 
-func NewSystolicArray(rows, cols rtl.FixedPoint) *SystolicArray {
+func NewSystolicArray(rows, cols int) *SystolicArray {
 	cells := make([][]*MAC, rows)
 	for i := range cells {
 		cells[i] = make([]*MAC, cols)

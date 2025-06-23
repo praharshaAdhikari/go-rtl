@@ -98,7 +98,10 @@ func (sa *SystolicArray) LoadAccumulators(accumulators [][]rtl.FixedPoint) {
 }
 
 func (sa *SystolicArray) Simulate(inputs SystolicArrayInput, verbose bool) {
-	fmt.Println("Starting Systolic Array Simulation")
+	if verbose {
+		fmt.Println("Starting Systolic Array Simulation")
+	}
+
 	if len(inputs) == 0 {
 		fmt.Println("No inputs provided for Systolic Array simulation.")
 		return
